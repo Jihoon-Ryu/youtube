@@ -2,7 +2,9 @@ extends layouts/main
 
 block content
  .form-container
-   form(action = "/login", method="post")
-     input(type="email", name="email", placeholder="Email")
-     input(type="password", name="password", placeholder="Password")
-     input(type="submit", value="Log In")
+   form(action=routes.editVideo(video.id), method="post")
+    input(type="text", placeholder="Title", name="title", value=video.title)
+    textarea(name="description", placeholder="Description")=video.description
+    input(type="submit", value="Update Video")
+   a.form-container__link(href=routes.deleteVideo)
+    button.delete Delete Video
