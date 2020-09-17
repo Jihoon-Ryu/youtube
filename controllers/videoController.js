@@ -1,13 +1,11 @@
 import routes from "../routes";
 import Video from "../models/Video";
-import Comment from "../models/Comment";
-import { render } from "pug";
 
 // Home
 
 export const home = async (req, res) => {
   try {
-    const videosdb = await Video.find({});
+    const videosdb = await Video.find({}).sort({ _id: -1 });
     res.render("home", { pageTitle: "Home", videosdb });
   } catch (error) {
     console.log(error);
@@ -15,10 +13,23 @@ export const home = async (req, res) => {
   }
 };
 
-export const search = (req, res) => {
+export const search = async (req, res) => {
   const searchingBy = req.query.term;
-  //const {query: {term}} = req
-  res.render("search", { pageTitle: "Search", searchingBy, videosdb });
+  //const {query: {term : searchingBy}} = req
+  let modelVideoDB_search = [];
+
+  try {
+    modelVideoDB_search = await Video.find({
+      title: { $regex: searchingBy, $options: "i" },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+  res.render("search", {
+    pageTitle: "Search",
+    searchingBy,
+    modelVideoDB_search,
+  });
 };
 
 export const videos = (req, res) =>
@@ -88,6 +99,15 @@ export const postEditVideo = async (req, res) => {
   }
 };
 
-export const deleteVideo = (req, res) => {
-  res.render("deleteVideo", { pageTitle: "Delete Video" });
+export const deleteVideo = async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+
+  try {
+    await Video.findOneAndRemove({ _id: id });
+    res.redirect(routes.home);
+  } catch (error) {
+    res.redirect(routes.home);
+  }
 };

@@ -9,10 +9,10 @@ const CommentSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  video: {
+  /*video: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Video",
-  },
+  }*/
 });
 
 const model = mongoose.model("Comment", CommentSchema);

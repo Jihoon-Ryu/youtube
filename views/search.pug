@@ -1,13 +1,18 @@
 extends layouts/main
 include mixins/videoBlock
+//- videoController.js 에서 modelVideoDB=[]
 
 block content
- .search__geader
+ .search__header
   h3 Searching for "#{searchingBy}"
- .search__videos 
-  each item in videosdb
-   +videoBlock({
+ .search__videos   
+  if modelVideoDB_search.length === 0
+   h5 No Video Found
+  else
+   each item in modelVideoDB_search
+    +videoBlock({
        title: item.title,
        views: item.views,
-       videoFile: item.videoFile
-   })
+       videoFile: item.fileUrl,
+       id: item._id
+     })
