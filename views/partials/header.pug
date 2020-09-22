@@ -9,7 +9,7 @@ header.header
        input(type="text", placeholder="Search by term..", name='term')
    div.header__column
      ul
-      if !user.isAuthenticated
+      if !user 
        li  
         a(href=routes.join) Join
        li
@@ -21,3 +21,5 @@ header.header
         a(href=routes.userDetail(user.id)) Profile 
        li
         a(href=routes.logout) Log Out 
+
+//-'user' from middlewares.js        
