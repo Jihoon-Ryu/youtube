@@ -4,11 +4,11 @@ import multer from "multer";
 
 const multerVideo = multer({ dest: "uploads/videos/" });
 
-//req.user : defined at userController.js - postJoin
+/*by Passport, postJoin=> const 'user'가 req에 추가됨. */
 export const localsMiddleware = (req, res, next) => {
   res.locals.siteName = "WeTube";
   res.locals.routes = routes;
-  res.locals.user = req.user || null;
+  res.locals.loggedUser = req.user || null;
   console.log(req.user);
   next();
 };
