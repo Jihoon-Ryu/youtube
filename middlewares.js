@@ -3,6 +3,7 @@ import routes from "./routes";
 import multer from "multer";
 
 const multerVideo = multer({ dest: "uploads/videos/" });
+const multerAvatar = multer({ dest: "uploads/avatars/" });
 
 /*by Passport, postJoin=> const 'user'가 req에 추가됨. */
 export const localsMiddleware = (req, res, next) => {
@@ -30,3 +31,4 @@ export const onlyPublic = (req, res, next) => {
 };
 
 export const uploadVideo = multerVideo.single("videoFile");
+export const uploadAvatar = multerAvatar.single("avatar");
