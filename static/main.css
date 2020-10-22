@@ -507,6 +507,9 @@ input[type="submit"] {
   width: 100px;
   margin-bottom: 25px;
 }
+.video-detail__container .video__info .video__author a {
+  color: #3498db;
+}
 .video-detail__container .video__info .video__title,
 .video-detail__container .video__info .video__views,
 .video-detail__container .video__info .video__description {
@@ -568,12 +571,17 @@ input[type="submit"] {
   -moz-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 .user-profile .user-profile__header .profile__username {
   font-size: 18px;
   margin-top: 15px;
 }
+.user-profile .user-profile__header .u-avatar {
+  height: 100px;
+  width: 100px;
+}
+
 .user-profile .user-profile__btns {
   display: -webkit-box;
   display: -webkit-flex;
@@ -595,4 +603,7 @@ input[type="submit"] {
 }
 .user-profile .user-profile__btns a:not(:last-child) {
   margin-bottom: 20px;
+}
+.user-profile__btns {
+  margin-bottom: 30px;
 }
