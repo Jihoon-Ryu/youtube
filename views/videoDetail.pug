@@ -2,15 +2,16 @@ extends layouts/main
 //- videoController.js에서 
 //-const video = await Video.findById(id); 
 //- 즉 video={modelVideo형식: title, desctiption,_id,...}
+include mixins/videoPlayer
 
 block content
  .video-detail__container
-   .video__player
-     video(src=`/${video.fileUrl}`, controls=true)
+   +videoPlayer({
+            src:video.fileUrl
+        })
    
-   .video__info
-       
-     if video.creator.id === loggedUser.id 
+   .video__info  
+     if loggedUser && video.creator.id === loggedUser.id 
       a(href=routes.editVideo(video.id))
         button Edit Video
      h5.video__title=video.title
