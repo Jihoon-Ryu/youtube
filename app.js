@@ -15,6 +15,7 @@ import mongoose from "mongoose";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import globalRouter from "./routers/globalRouter";
+import apiRouter from "./routers/apiRouter";
 import routes from "./routes";
 import { localsMiddleware } from "./middlewares";
 
@@ -57,5 +58,6 @@ app.use(express.static(__dirname + "/"));
 app.use(routes.home, globalRouter);
 app.use(routes.home, userRouter);
 app.use(routes.home, videoRouter);
+app.use(routes.api, apiRouter);
 
 export default app;

@@ -7,6 +7,13 @@ const currentTime = document.getElementById("currentTime");
 const totalTime = document.getElementById("totalTime");
 const volumeRange = document.getElementById("jsVolume");
 
+const registerView = () => {
+  const videoId = window.location.href.split("/videos/")[1];
+  fetch(`/api/${videoId}/view`, {
+    method: "POST",
+  });
+};
+
 function exitFullScreen() {
   fullScrnBtn.innerHTML = '<i class="fas fa-expand"></i>';
   fullScrnBtn.addEventListener("click", goFullScreen);
@@ -88,6 +95,9 @@ function setTotalTime() {
 }
 
 function handleEnded() {
+  /*비디오 재생이 끝났을 때, 
+  조회수를 1 높이고
+  재생 버튼을 누르기 전 상태로 되돌리기.*/
   videoPlayer.currentTime = 0;
   playBtn.innerHTML = '<i class="fas fa-play"></i>';
 }
@@ -107,6 +117,7 @@ function handleDrag(event) {
 }
 
 function init() {
+  registerView();
   playBtn.addEventListener("click", handlePlayClick);
   volumeBtn.addEventListener("click", handleVolumeClick);
   fullScrnBtn.addEventListener("click", goFullScreen);
