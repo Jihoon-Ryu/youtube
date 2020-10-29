@@ -1,6 +1,21 @@
 import routes from "../routes";
 import Video from "../models/Video";
+import User from "../models/User";
 import Comment from "../models/Comment";
+
+Array.prototype.remove = function () {
+  var what,
+    a = arguments,
+    L = a.length,
+    ax;
+  while (L && this.length) {
+    what = a[--L];
+    while ((ax = this.indexOf(what)) !== -1) {
+      this.splice(ax, 1);
+    }
+  }
+  return this;
+};
 
 // Home
 
@@ -151,16 +166,40 @@ export const postAddComment = async (req, res) => {
     body: { comment },
     user,
   } = req;
+  //comment from addComment.js-sendComment
   try {
     const video = await Video.findById(id);
+    const commentUser = await User.findById(user.id);
+    //user.id = newComment.creator(id형식)
     const newComment = await Comment.create({
       text: comment,
       creator: user.id,
+      creatorName: user.name,
+      creatorAvatarUrl: commentUser.avatarUrl,
     });
     video.comments.push(newComment._id);
-    //VideoModel의 comments [ ]
     video.save();
-    console.log(comment.creator);
+    //VideoModel의 comments [ ]
+    console.log(newComment.creatorAvatarUrl);
+  } catch (error) {
+    res.status(400);
+  } finally {
+    res.end();
+  }
+};
+
+export const postDeleteComment = async (req, res) => {
+  const {
+    params: { id },
+    body: { commentID },
+  } = req;
+  //commentID from addComment.js-deleteComment
+  try {
+    const video = await Video.findById(id);
+    await Comment.findOneAndRemove({ _id: commentID });
+    video.comments.remove(commentID);
+    video.save();
+    //VideoModel의 comments [ ]
   } catch (error) {
     res.status(400);
   } finally {

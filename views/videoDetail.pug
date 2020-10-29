@@ -1,5 +1,5 @@
 extends layouts/main
-//- videoController.js에서 
+//- videoController.js - videoDetail에서 온 video 
 //-const video = await Video.findById(id); 
 //- 즉 video={modelVideo형식: title, desctiption,_id,...}
 include mixins/videoPlayer
@@ -39,9 +39,12 @@ block content
      ul.video__comments-list#jsCommentList
       each comment in video.comments.reverse()
          li
-          span=comment.creator.name
-          span=`${comment.text} ❎`
-          
+          img.commentFoto(src=comment.creatorAvatarUrl)
+          a(href=routes.userDetail(comment.creator))=`${comment.creatorName} : `
+          span.commentText=comment.text 
+           if loggedUser && comment.creator == loggedUser.id 
+            button.deleteBtn X
+            h6.commentID#commentID=comment._id
         
        
          
