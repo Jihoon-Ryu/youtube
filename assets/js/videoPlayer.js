@@ -6,6 +6,7 @@ const fullScrnBtn = document.getElementById("jsFullScreen");
 const currentTime = document.getElementById("currentTime");
 const totalTime = document.getElementById("totalTime");
 const volumeRange = document.getElementById("jsVolume");
+const playBar = document.getElementById("playBar");
 
 const registerView = () => {
   const videoId = window.location.href.split("/videos/")[1];
@@ -83,9 +84,20 @@ const formatDate = (seconds) => {
   return `${hours}:${minutes}:${totalSeconds}`;
 };
 
+const formatDateSeconds = (seconds) => {
+  return parseInt(seconds, 10);
+};
+
 function getCurrentTime() {
+  // 00:00 / 3:16 숫자표시
   const currentTimeString = formatDate(Math.floor(videoPlayer.currentTime));
   currentTime.innerHTML = currentTimeString;
+  //playBar 표시
+  const currentTimeSeconds = formatDateSeconds(
+    Math.floor(videoPlayer.currentTime)
+  );
+  const totalTimeSeconds = formatDateSeconds(videoPlayer.duration);
+  playBar.value = (currentTimeSeconds / totalTimeSeconds) * 100;
 }
 
 function setTotalTime() {
@@ -117,6 +129,12 @@ function handleDrag(event) {
   }
 }
 
+function handlePlayBar() {
+  const totalTimeSeconds = formatDateSeconds(videoPlayer.duration);
+  videoPlayer.currentTime = (playBar.value / 100) * totalTimeSeconds;
+  console.log(videoPlayer.duration);
+}
+
 function init() {
   playBtn.addEventListener("click", handlePlayClick);
   volumeBtn.addEventListener("click", handleVolumeClick);
@@ -125,6 +143,7 @@ function init() {
   videoPlayer.addEventListener("ended", handleEnded);
   volumeRange.addEventListener("input", handleDrag);
   videoPlayer.volume = 0.5;
+  playBar.addEventListener("input", handlePlayBar);
 }
 
 if (videoContainer) {
